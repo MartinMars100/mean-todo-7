@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+  head
+  title
+  link(href='https://fonts.googleapis.com/css?family=Varela+Round', rel='stylesheet', type='text/css')
+  link(href='/static/styles/main.css', rel='stylesheet', type='text/css')
+  body(ng-app='todoListApp')
+    .list(ng-controller = "mainCtrl")
+      h1 My TODOs
+      .add
+        a(href = '', ng-click = 'addTodo()') + Add a New Task
+      .item(ng-class = "{'editing-item': editing, 'edited': todo.edited,'completed': todo.completed}", ng-repeat = "todo in todos | orderBy: 'completed'" ng-init = "todo.completed = false")
+        input(type='checkbox', ng-model = 'todo.completed')
+        span(ng-click = "todo.completed = !todo.completed; todo.edited = true")
+        label.editing-label(ng-click = "editing = true" ng-hide='editing') {{todo.name}}
+        input.editing-label(ng-change = "todo.edited = true", ng-blur="editing = false", ng-show='editing', ng-model='todo.name', type='text') 
+        .actions
+          // a(href='', ng-click=' editing = !editing') edit
+          a(href='', ng-click='saveTodos(todo)') save
+          a.delete(href='', ng-click = 'deleteTodo(todo, $index)') delete
+
+  script(src='/static/vendor/angular.js', type = "text/javascript")
+  script(src='/static/scripts/index.js')
+  script(src='/static/scripts/controllers/main.js')
+  script(src='/static/scripts/services/data.js')
